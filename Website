@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ironclad Construction</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+```
+:root {
+  --bg: #111210;
+  --surface: #1A1C19;
+  --surface2: #222420;
+  --border: #2E3029;
+  --gold: #D4A843;
+  --text: #E8E6E0;
+  --muted: #7A7D72;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; font-weight: 400; overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 60px;
+  background: rgba(17,18,16,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.5rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text); text-decoration: none; }
+.logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+.nav-links a { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-cta { background: var(--gold) !important; color: #111 !important; padding: 10px 24px !important; font-weight: 600 !important; }
+.nav-cta:hover { opacity: 0.85; }
+
+/* HERO */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 60px 80px; position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(17,18,16,0.2) 0%, rgba(17,18,16,0.85) 65%, var(--bg) 100%),
+    repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(255,255,255,0.016) 80px, rgba(255,255,255,0.016) 81px),
+    repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(255,255,255,0.016) 80px, rgba(255,255,255,0.016) 81px);
+  background-color: #1E1F1B;
+}
+.hero-bg::before {
+  content: ''; position: absolute; top: -10%; right: -5%;
+  width: 55vw; height: 110vh; border: 1px solid rgba(212,168,67,0.1);
+  transform: rotate(12deg); pointer-events: none;
+}
+.hero-tag {
+  position: relative; display: inline-flex; align-items: center; gap: 12px;
+  font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+}
+.hero-tag::before { content: ''; width: 32px; height: 1px; background: var(--gold); }
+h1 {
+  position: relative;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+  font-size: clamp(4rem, 9vw, 9rem); line-height: 0.92;
+  text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 40px;
+  opacity: 0; animation: fadeUp 0.8s 0.35s forwards;
+}
+h1 .outline { -webkit-text-stroke: 1px rgba(232,230,224,0.22); color: transparent; }
+h1 .gold { color: var(--gold); }
+
+.hero-sub {
+  position: relative; display: flex; align-items: flex-start; gap: 60px;
+  opacity: 0; animation: fadeUp 0.8s 0.5s forwards;
+}
+.hero-desc { font-size: 1rem; line-height: 1.7; color: var(--muted); max-width: 380px; }
+.hero-stats { display: flex; gap: 48px; border-left: 1px solid var(--border); padding-left: 60px; }
+.stat { text-align: center; }
+.stat-n { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 2.8rem; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+.stat-l { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+
+/* SECTION */
+.section { padding: 100px 60px; }
+.section-label { display: inline-flex; align-items: center; gap: 14px; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+.section-label::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: clamp(2.2rem, 4vw, 3.6rem); text-transform: uppercase; line-height: 1; margin-bottom: 56px; }
+
+/* SERVICES */
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+.service-card { background: var(--surface); padding: 44px 36px; position: relative; overflow: hidden; transition: background 0.3s; }
+.service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+.service-card:hover { background: var(--surface2); }
+.service-card:hover::before { transform: scaleX(1); }
+.service-icon { width: 44px; height: 44px; margin-bottom: 24px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); color: var(--gold); font-size: 1.3rem; }
+.service-card h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.35rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 12px; }
+.service-card p { font-size: 0.85rem; line-height: 1.7; color: var(--muted); }
+
+/* PROCESS */
+.process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
+.process-step { background: var(--bg); padding: 48px 36px; position: relative; }
+.step-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 5rem; color: rgba(212,168,67,0.07); line-height: 1; position: absolute; top: 16px; right: 20px; }
+.step-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; display: block; }
+.process-step h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.25rem; text-transform: uppercase; margin-bottom: 10px; }
+.process-step p { font-size: 0.85rem; line-height: 1.7; color: var(--muted); }
+
+/* BOOKING */
+#booking { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.booking-inner { display: grid; grid-template-columns: 1fr 1.5fr; }
+.booking-left { padding: 80px 60px; border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; }
+.booking-left h2 { margin-bottom: 18px; }
+.booking-left > p { font-size: 0.95rem; line-height: 1.75; color: var(--muted); margin-bottom: 44px; }
+.trust-items { display: flex; flex-direction: column; gap: 16px; }
+.trust-item { display: flex; align-items: center; gap: 14px; font-size: 0.85rem; color: var(--muted); }
+.trust-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+.booking-right { padding: 80px 60px; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.form-full { grid-column: 1 / -1; }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.field input, .field select, .field textarea {
+  background: var(--bg); border: 1px solid var(--border);
+  color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.95rem;
+  padding: 13px 16px; outline: none; transition: border-color 0.2s;
+  appearance: none; -webkit-appearance: none; border-radius: 0;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); }
+.field input::placeholder, .field textarea::placeholder { color: var(--muted); }
+.field textarea { resize: vertical; min-height: 110px; }
+.field select option { background: #111; }
+
+.form-submit {
+  margin-top: 24px; width: 100%; padding: 17px;
+  background: var(--gold); border: none; cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+  font-size: 1rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: #111; transition: background 0.2s, transform 0.1s;
+}
+.form-submit:hover { background: #e0b94f; }
+.form-submit:active { transform: scale(0.99); }
+.form-note { margin-top: 12px; font-size: 0.75rem; color: var(--muted); text-align: center; }
+.error-border { border-color: #C44B2B !important; }
+
+.success-msg { display: none; flex-direction: column; align-items: center; gap: 16px; padding: 80px 40px; text-align: center; }
+.success-icon { width: 64px; height: 64px; border: 2px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--gold); }
+.success-msg h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 2rem; font-weight: 700; text-transform: uppercase; }
+.success-msg p { color: var(--muted); max-width: 320px; line-height: 1.7; }
+
+/* FOOTER */
+footer { padding: 44px 60px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.footer-logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.footer-logo span { color: var(--gold); }
+.footer-copy { font-size: 0.75rem; color: var(--muted); }
+.footer-contact { font-size: 0.8rem; color: var(--muted); text-align: right; line-height: 1.9; }
+.footer-contact a { color: var(--gold); text-decoration: none; }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s, transform 0.7s; }
+.reveal.visible { opacity: 1; transform: none; }
+
+@keyframes fadeUp { to { opacity: 1; transform: none; } }
+@keyframes fadeIn { to { opacity: 1; } }
+```
+
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">Iron<span>clad</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#booking" class="nav-cta">Book a Job</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <p class="hero-tag">General Contracting · Licensed &amp; Insured</p>
+  <h1>Built<br/><span class="outline">Right.</span><br/><span class="gold">Every</span> Time.</h1>
+  <div class="hero-sub">
+    <p class="hero-desc">From ground-up builds to complex commercial fit-outs — Ironclad delivers on time, on budget, and without compromise.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n">15+</div><div class="stat-l">Years active</div></div>
+      <div class="stat"><div class="stat-n">400+</div><div class="stat-l">Jobs done</div></div>
+      <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Licensed</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+
+<section class="section" id="services">
+  <p class="section-label reveal">What We Build</p>
+  <h2 class="reveal">Our Services</h2>
+  <div class="services-grid reveal">
+    <div class="service-card"><div class="service-icon">🏗</div><h3>New Construction</h3><p>Full ground-up builds for residential and commercial clients. We manage everything from permits to handover.</p></div>
+    <div class="service-card"><div class="service-icon">🔨</div><h3>Structural Work</h3><p>Foundation repairs, framing, load-bearing alterations, and structural reinforcements done to code.</p></div>
+    <div class="service-card"><div class="service-icon">🪟</div><h3>Interior Fit-Out</h3><p>Partitioning, ceilings, flooring, and full interior buildouts for commercial and residential spaces.</p></div>
+    <div class="service-card"><div class="service-icon">🧱</div><h3>Masonry &amp; Concrete</h3><p>Slabs, retaining walls, brick &amp; block work — built to last decades, not years.</p></div>
+    <div class="service-card"><div class="service-icon">⚡</div><h3>Site Management</h3><p>Full-scope project management, subcontractor coordination, and compliance oversight.</p></div>
+    <div class="service-card"><div class="service-icon">📋</div><h3>Permits &amp; Planning</h3><p>We handle building permits, council approvals, and planning applications so you don't have to.</p></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+
+<section class="section" id="process" style="padding-top:0">
+  <p class="section-label reveal">How It Works</p>
+  <h2 class="reveal">Simple Process</h2>
+  <div class="process-steps reveal">
+    <div class="process-step"><span class="step-num">1</span><span class="step-label">Step One</span><h3>Book Online</h3><p>Fill out the form below with your job details. Takes under 2 minutes.</p></div>
+    <div class="process-step"><span class="step-num">2</span><span class="step-label">Step Two</span><h3>Site Visit</h3><p>We schedule a free on-site assessment within 48 hours and give you a fixed quote.</p></div>
+    <div class="process-step"><span class="step-num">3</span><span class="step-label">Step Three</span><h3>We Get to Work</h3><p>Once approved, we mobilise fast with a dedicated site manager throughout.</p></div>
+    <div class="process-step"><span class="step-num">4</span><span class="step-label">Step Four</span><h3>Handover</h3><p>Final walkthrough, sign-off, and a full warranty on all work completed.</p></div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+
+<section id="booking">
+  <div class="booking-inner">
+    <div class="booking-left reveal">
+      <p class="section-label">Get Started</p>
+      <h2>Book a Job</h2>
+      <p>Tell us about your project and we'll get back to you within one business day to confirm your site visit and free quote.</p>
+      <div class="trust-items">
+        <div class="trust-item"><div class="trust-dot"></div>Free on-site assessment</div>
+        <div class="trust-item"><div class="trust-dot"></div>Fixed-price quotes — no surprises</div>
+        <div class="trust-item"><div class="trust-dot"></div>Fully licensed &amp; insured</div>
+        <div class="trust-item"><div class="trust-dot"></div>Response within 1 business day</div>
+      </div>
+    </div>
+
+```
+<div class="booking-right reveal">
+  <div id="booking-form">
+    <div class="form-grid">
+      <div class="field"><label>First Name *</label><input type="text" id="fname" placeholder="John"/></div>
+      <div class="field"><label>Last Name *</label><input type="text" id="lname" placeholder="Smith"/></div>
+      <div class="field"><label>Phone *</label><input type="tel" id="phone" placeholder="(555) 000-0000"/></div>
+      <div class="field"><label>Email *</label><input type="email" id="email" placeholder="john@example.com"/></div>
+      <div class="field form-full">
+        <label>Job Type *</label>
+        <select id="job-type">
+          <option value="" disabled selected>Select a service</option>
+          <option>New Construction</option>
+          <option>Structural Work</option>
+          <option>Interior Fit-Out</option>
+          <option>Masonry &amp; Concrete</option>
+          <option>Site Management</option>
+          <option>Permits &amp; Planning</option>
+          <option>Other / Not Sure</option>
+        </select>
+      </div>
+      <div class="field form-full"><label>Site Address *</label><input type="text" id="address" placeholder="123 Main St, City, State"/></div>
+      <div class="field"><label>Estimated Start Date</label><input type="date" id="start-date"/></div>
+      <div class="field">
+        <label>Estimated Budget</label>
+        <select id="budget">
+          <option value="" disabled selected>Select range</option>
+          <option>Under $10,000</option>
+          <option>$10,000 – $50,000</option>
+          <option>$50,000 – $150,000</option>
+          <option>$150,000 – $500,000</option>
+          <option>$500,000+</option>
+        </select>
+      </div>
+      <div class="field form-full"><label>Project Description *</label><textarea id="description" placeholder="Describe the work you need — scope, site conditions, any special requirements..."></textarea></div>
+    </div>
+    <button class="form-submit" onclick="submitForm()">Request My Free Quote →</button>
+    <p class="form-note">No spam. No commitment. We'll call to confirm.</p>
+  </div>
+
+  <div class="success-msg" id="success-msg">
+    <div class="success-icon">✓</div>
+    <h3>Booking Received</h3>
+    <p>We've got your details and will be in touch within one business day to arrange your free site visit.</p>
+    <p class="form-note" style="margin-top:4px">Check your email for a confirmation.</p>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-logo">Iron<span>clad</span></div>
+  <div class="footer-copy">© 2025 Ironclad Construction. All rights reserved.</div>
+  <div class="footer-contact">
+    <a href="tel:+15550001234">(555) 000-1234</a><br/>
+    <a href="mailto:hello@ironclad.build">hello@ironclad.build</a>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 90);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  function submitForm() {
+    const fields = ['fname','lname','phone','email','job-type','address','description'];
+    let valid = true;
+    fields.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el.value.trim()) {
+        el.classList.add('error-border');
+        el.addEventListener('input', () => el.classList.remove('error-border'), { once: true });
+        valid = false;
+      }
+    });
+    if (!valid) return;
+    document.getElementById('booking-form').style.display = 'none';
+    const sm = document.getElementById('success-msg');
+    sm.style.display = 'flex';
+    sm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+</script>
+
+</body>
+</html>
